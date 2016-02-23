@@ -8,29 +8,49 @@
  */
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
-<head>
-<meta charset="<?php bloginfo( 'charset' ); ?>">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="profile" href="http://gmpg.org/xfn/11">
-<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
+  <head>
+    <meta charset="<?php bloginfo( 'charset' ); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="profile" href="http://gmpg.org/xfn/11">
+    <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 
-<?php wp_head(); ?>
-</head>
+    <?php wp_head(); ?>
+  </head>
+  <body <?php body_class(); ?>>
+    <div id="page" class="hfeed site">
+      <a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'mbklight' ); ?></a>
 
-<body <?php body_class(); ?>>
-<div id="page" class="hfeed site">
-	<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'mbklight' ); ?></a>
+    <nav id="site-navigation" class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-logo" href="<?php echo home_url(); ?>">
+						<?php 
+							if ( get_theme_mod( 'mbklight_logo' ) ) : ?>
+								<img src="<?php echo esc_url( get_theme_mod( 'mbklight_logo' ) ); ?>"/><?php
+							endif; ?>
+          </a>
+          <a class="navbar-brand" href="<?php echo home_url(); ?>"><?php echo bloginfo( 'name' ); ?></a>
+        </div>
 
-	<header id="masthead" class="site-header" role="banner">
-		<div class="site-branding">
-			<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-			<h2 class="site-description"><?php bloginfo( 'description' ); ?></h2>
-		</div><!-- .site-branding -->
+        <?php
+          wp_nav_menu( array(
+            'menu'              => 'primary',
+            'theme_location'    => 'primary',
+            'depth'             => 2,
+            'container'         => 'div',
+            'container_class'   => 'collapse navbar-collapse',
+            'container_id'      => 'mbklight-navbar-collapse-primary',
+            'menu_class'        => 'nav navbar-nav',
+            'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
+            'walker'            => new wp_bootstrap_navwalker())
+          );?>
+      </div>
+    </nav><!-- #site-navigation -->
 
-		<nav id="site-navigation" class="main-navigation" role="navigation">
-			<button class="menu-toggle" aria-controls="menu" aria-expanded="false"><?php _e( 'Primary Menu', 'mbklight' ); ?></button>
-			<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
-		</nav><!-- #site-navigation -->
-	</header><!-- #masthead -->
-
-	<div id="content" class="site-content">
+    <div id="content" class="site-content container">

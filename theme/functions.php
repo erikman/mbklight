@@ -97,14 +97,33 @@ function mbklight_widgets_init() {
 add_action( 'widgets_init', 'mbklight_widgets_init' );
 
 /**
+ * Register customizable actions
+ */
+function mbklight_theme_customizer($wp_customize) {
+  $wp_customize->add_section('mbklight_logo_section' , array(
+    'title'       => __( 'Logo', 'mbklight' ),
+    'priority'    => 30,
+    'description' => 'Upload a logo place beside the site name in the header',
+  ) );
+  $wp_customize->add_setting( 'mbklight_logo' );
+
+  $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'mbklight_logo', array(
+    'label'    => __( 'Logo', 'mbklight' ),
+    'section'  => 'mbklight_logo_section',
+    'settings' => 'mbklight_logo',
+  ) ) );
+}
+add_action('customize_register', 'mbklight_theme_customizer');
+
+/**
  * Enqueue scripts and styles.
  */
 function mbklight_scripts() {
 	wp_enqueue_style( 'mbklight-style', get_stylesheet_uri() );
 
-	wp_enqueue_script( 'mbklight-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20120206', true );
+        wp_enqueue_script( 'jquery', get_template_directory_uri() . '/js/jquery.js', array(), '2.1.3', true );
 
-	wp_enqueue_script( 'mbklight-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20130115', true );
+        wp_enqueue_script( 'bootstrap', get_template_directory_uri() . '/js/bootstrap.js', array(), '3.3.2', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -136,3 +155,8 @@ require get_template_directory() . '/inc/customizer.php';
  * Load Jetpack compatibility file.
  */
 require get_template_directory() . '/inc/jetpack.php';
+
+/**
+ * Register Custom Navigation Walker for bootstrap menubar
+ */
+require_once(get_template_directory() . '/inc/wp_bootstrap_navwalker.php');

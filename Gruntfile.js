@@ -79,6 +79,7 @@ module.exports = function (grunt) {
         httpImagesPath: '/images',
         httpGeneratedImagesPath: '/images/generated',
         httpFontsPath: '/styles/fonts',
+        importPath: 'vendor/bootstrap-sass-3.3.2/assets/stylesheets/',
         relativeAssets: false,
         assetCacheBuster: false,
         raw: 'Sass::Script::Number.precision = 10\n'
@@ -153,6 +154,18 @@ module.exports = function (grunt) {
           cwd: '.tmp/styles',
           dest: '<%= mbklight.dist %>',
           src: '*.css'
+        },
+        {
+          expand: true, // Copy bootstrap scripts
+          cwd: 'vendor/bootstrap-sass-3.3.2/assets/javascripts/',
+          dest: '<%= mbklight.dist %>/js',
+          src: '*.js'
+        },
+        {
+          expand: true, // Copy jquery scripts
+          cwd: 'vendor/',
+          dest: '<%= mbklight.dist %>/js',
+          src: '*.js'
         }]
       },
       styles: { 
