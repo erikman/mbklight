@@ -79,7 +79,7 @@ module.exports = function (grunt) {
         httpImagesPath: '/images',
         httpGeneratedImagesPath: '/images/generated',
         httpFontsPath: '/styles/fonts',
-        importPath: 'vendor/bootstrap-sass-3.3.2/assets/stylesheets/',
+        importPath: 'bower_components/bootstrap-sass/assets/stylesheets/',
         relativeAssets: false,
         assetCacheBuster: false,
         raw: 'Sass::Script::Number.precision = 10\n'
@@ -157,13 +157,13 @@ module.exports = function (grunt) {
         },
         {
           expand: true, // Copy bootstrap scripts
-          cwd: 'vendor/bootstrap-sass-3.3.2/assets/javascripts/',
+          cwd: 'bower_components/bootstrap-sass/assets/javascripts/',
           dest: '<%= mbklight.dist %>/js',
-          src: '*.js'
+          src: '**/*.js'
         },
         {
           expand: true, // Copy jquery scripts
-          cwd: 'vendor/',
+          cwd: 'bower_components/jquery/dist',
           dest: '<%= mbklight.dist %>/js',
           src: '*.js'
         }]
