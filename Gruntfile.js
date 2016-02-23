@@ -176,6 +176,20 @@ module.exports = function (grunt) {
       }
     },
 
+    compress: {
+      dist: {
+        options: {
+          archive: 'mbklight.zip'
+        },
+        files: [{
+          expand: true,
+          cwd: 'dist/',
+          src: ['**'],
+          dest: 'mbklight'
+        }]
+      }
+    },
+
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
