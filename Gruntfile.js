@@ -162,6 +162,12 @@ module.exports = function (grunt) {
           src: '**/*.js'
         },
         {
+          expand: true, // Copy bootstrap fonts
+          cwd: 'bower_components/bootstrap-sass/assets/fonts/',
+          dest: '<%= mbklight.dist %>/fonts',
+          src: '**'
+        },
+        {
           expand: true, // Copy jquery scripts
           cwd: 'bower_components/jquery/dist',
           dest: '<%= mbklight.dist %>/js',
@@ -210,7 +216,8 @@ module.exports = function (grunt) {
     'clean:dist',
     'concurrent:dist',
     'autoprefixer',
-    'copy:dist'
+    'copy:dist',
+    'compress:dist'
   ]);
 
   grunt.registerTask('default', [

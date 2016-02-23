@@ -1,16 +1,11 @@
 <?php
 /**
- * MBKLight functions and definitions
+ * MBKLight functions and definitions.
+ *
+ * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
  * @package MBKLight
  */
-
-/**
- * Set the content width based on the theme's design and stylesheet.
- */
-if ( ! isset( $content_width ) ) {
-	$content_width = 640; /* pixels */
-}
 
 if ( ! function_exists( 'mbklight_setup' ) ) :
 /**
@@ -21,12 +16,11 @@ if ( ! function_exists( 'mbklight_setup' ) ) :
  * as indicating support for post thumbnails.
  */
 function mbklight_setup() {
-
 	/*
 	 * Make theme available for translation.
 	 * Translations can be filed in the /languages/ directory.
 	 * If you're building a theme based on MBKLight, use a find and replace
-	 * to change 'mbklight' to the name of your theme in all the template files
+	 * to change 'mbklight' to the name of your theme in all the template files.
 	 */
 	load_theme_textdomain( 'mbklight', get_template_directory() . '/languages' );
 
@@ -44,13 +38,13 @@ function mbklight_setup() {
 	/*
 	 * Enable support for Post Thumbnails on posts and pages.
 	 *
-	 * @link http://codex.wordpress.org/Function_Reference/add_theme_support#Post_Thumbnails
+	 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
 	 */
-	//add_theme_support( 'post-thumbnails' );
+	add_theme_support( 'post-thumbnails' );
 
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
-		'primary' => __( 'Primary Menu', 'mbklight' ),
+		'primary' => esc_html__( 'Primary', 'mbklight' ),
 	) );
 
 	/*
@@ -58,15 +52,23 @@ function mbklight_setup() {
 	 * to output valid HTML5.
 	 */
 	add_theme_support( 'html5', array(
-		'search-form', 'comment-form', 'comment-list', 'gallery', 'caption',
+		'search-form',
+		'comment-form',
+		'comment-list',
+		'gallery',
+		'caption',
 	) );
 
 	/*
 	 * Enable support for Post Formats.
-	 * See http://codex.wordpress.org/Post_Formats
+	 * See https://developer.wordpress.org/themes/functionality/post-formats/
 	 */
 	add_theme_support( 'post-formats', array(
-		'aside', 'image', 'video', 'quote', 'link',
+		'aside',
+		'image',
+		'video',
+		'quote',
+		'link',
 	) );
 
 	// Set up the WordPress core custom background feature.
@@ -75,23 +77,35 @@ function mbklight_setup() {
 		'default-image' => '',
 	) ) );
 }
-endif; // mbklight_setup
+endif;
 add_action( 'after_setup_theme', 'mbklight_setup' );
+
+/**
+ * Set the content width in pixels, based on the theme's design and stylesheet.
+ *
+ * Priority 0 to make it available to lower priority callbacks.
+ *
+ * @global int $content_width
+ */
+function mbklight_content_width() {
+	$GLOBALS['content_width'] = apply_filters( 'mbklight_content_width', 640 );
+}
+add_action( 'after_setup_theme', 'mbklight_content_width', 0 );
 
 /**
  * Register widget area.
  *
- * @link http://codex.wordpress.org/Function_Reference/register_sidebar
+ * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
 function mbklight_widgets_init() {
 	register_sidebar( array(
-		'name'          => __( 'Sidebar', 'mbklight' ),
+		'name'          => esc_html__( 'Sidebar', 'mbklight' ),
 		'id'            => 'sidebar-1',
 		'description'   => '',
-		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</aside>',
-		'before_title'  => '<h1 class="widget-title">',
-		'after_title'   => '</h1>',
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</section>',
+		'before_title'  => '<h2 class="widget-title">',
+		'after_title'   => '</h2>',
 	) );
 }
 add_action( 'widgets_init', 'mbklight_widgets_init' );
@@ -107,7 +121,8 @@ function mbklight_theme_customizer($wp_customize) {
   ) );
   $wp_customize->add_setting( 'mbklight_logo' );
 
-  $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'mbklight_logo', array(
+  $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'm
+bklight_logo', array(
     'label'    => __( 'Logo', 'mbklight' ),
     'section'  => 'mbklight_logo_section',
     'settings' => 'mbklight_logo',
@@ -121,9 +136,12 @@ add_action('customize_register', 'mbklight_theme_customizer');
 function mbklight_scripts() {
 	wp_enqueue_style( 'mbklight-style', get_stylesheet_uri() );
 
-        wp_enqueue_script( 'jquery', get_template_directory_uri() . '/js/jquery.js', array(), '2.1.3', true );
+        wp_enqueue_script( 'jquery', get_template_directory_uri() . '/js/jquery.js', array(), '2.2.1', true );
+	wp_enqueue_script( 'bootstrap', get_template_directory_uri() . '/js/bootstrap.js', array( ), false, 'all' );
 
-        wp_enqueue_script( 'bootstrap', get_template_directory_uri() . '/js/bootstrap.js', array(), '3.3.2', true );
+	wp_enqueue_script( 'mbklight-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
+
+	wp_enqueue_script( 'mbklight-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -134,7 +152,7 @@ add_action( 'wp_enqueue_scripts', 'mbklight_scripts' );
 /**
  * Implement the Custom Header feature.
  */
-//require get_template_directory() . '/inc/custom-header.php';
+require get_template_directory() . '/inc/custom-header.php';
 
 /**
  * Custom template tags for this theme.
